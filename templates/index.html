@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Security Research Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="background">
+        <div class="shape"></div>
+        <div class="shape"></div>
+    </div>
+
+    <div class="container">
+        <div class="glass-card">
+            <div class="header">
+                <h1><i class="fas fa-shield-alt"></i> Security Research Portal</h1>
+                <p>Search across top security platforms for reports, writeups, and vulnerabilities</p>
+            </div>
+
+            {% if error %}
+            <div class="error-message">
+                {{ error }}
+            </div>
+            {% endif %}
+
+            <form action="/" method="POST" class="search-form" autocomplete="off">
+                <div class="search-container">
+                    <div class="search-input">
+                        <input type="text" name="query" placeholder="Enter your search (e.g., 'web cache deception')" required>
+                        <button type="submit" class="search-button">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+
+                    <div class="platform-selector">
+                        <select name="platform" required>
+                            <option value="" disabled selected>Select platform</option>
+                            {% for key, value in platforms.items() %}
+                            <option value="{{ key }}">{{ value }}</option>
+                            {% endfor %}
+                        </select>
+                        <div class="select-arrow">
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+            <div class="platform-icons">
+                {% for key, value in platforms.items() %}
+                <div class="platform-icon" data-platform="{{ key }}">
+                    <i class="fab fa-{{ 'wordpress-simple' if key == 'wordpress' else key }}"></i>
+                    <span>{{ value }}</span>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>For security researchers, bug bounty hunters, and penetration testers</p>
+        </div>
+    </div>
+<div class="attribution">
+    Built with <i class="fas fa-heart"></i> by <span>@40sp3l</span>
+</div>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
